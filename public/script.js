@@ -9,11 +9,23 @@ fetch("/api/products").then(response => response.json()).then(list => {
   countCart();
 });
 
+document.addEventListener("click", e => {
+  if (location.hash === "#cart" && !e.target.closest("#cart") ) closeCart() 
+}, true)
+
 document.querySelector("#wrapper .products").onclick = e => {
   if (e.target.classList.contains("buy")) {
     addToCart(+e.target.dataset.id);
     e.target.classList.remove("add");
     setTimeout(() => e.target.classList.add("add"))
+  }
+}
+
+document.querySelector("#cart ul").onclick = e => {
+  if (e.target.classList.contains("add")){
+    addToCart(+e.target.dataset.id);
+  }else if (e.target.classList.contains("remove")){
+    removeFromCart(+e.target.dataset.id);
   }
 }
 
@@ -40,7 +52,7 @@ function showProducts(products) {
 
 function buildCartItem(id, count) {
   const product = products.find(product => product.id === id);
-  const {id, img, title, price } = product;
+  const {img, title, price } = product;
   const total = price * count;
   return `
     <img src="IMG/${img}" alt="">
@@ -74,7 +86,7 @@ function format(price){
   return `${String(price).replace(/(\d{3})$/, " $1")} грн.`
 }
 function closeCart(){
-  document.querySelector("h1 a").click();
+  location.hash = "";
 }
 function countCart(){
   const cartLink = document.querySelector('[href="#cart"]').parentElement;
@@ -95,8 +107,9 @@ function addToCart(id){
 function removeFromCart(id){
   const cartItems = JSON.parse(localStorage.iMarket_cart || "[]");
   const itemIndex = cartItems.findIndex(item => item.id === id);
-  if (itemIndex === -1) cartItems.push({id, count: 1});
-  else cartItems[itemIndex].count++;
+  if (itemIndex === -1) return;
+  else if (cartItems[itemIndex].count) cartItems[itemIndex].count--;
+  else cartItems.splice(itemIndex, 1);
   localStorage.iMarket_cart = JSON.stringify(cartItems);
   countCart();
   fillCart(cartItems);

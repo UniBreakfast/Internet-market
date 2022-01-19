@@ -1,3 +1,8 @@
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+}
+
 ul {
     list-style: none;
     padding: 0;
@@ -124,11 +129,16 @@ footer {
     justify-content: center;
     gap: 40px;
     align-items: center;
+    padding: 40px;
 }
 
 footer>.social {
     display: flex;
     gap: 20px;
+}
+
+footer>.social img{
+    height: 40px;
 }
 
 #cart{
