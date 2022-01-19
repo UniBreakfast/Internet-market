@@ -7,7 +7,7 @@ fetch("/api/products").then(response => response.json()).then(list => {
 
   fillCart(JSON.parse(localStorage.iMarket_cart || "[]"));
   countCart();
-});
+}).catch(() => fetch("/")) ;
 
 document.addEventListener("click", e => {
   if (location.hash === "#cart" && !e.target.closest("#cart") ) closeCart() 
