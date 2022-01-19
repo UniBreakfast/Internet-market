@@ -1,4 +1,4 @@
-var products = [
+products = [
   {
     id: 1,
     img: "Proc.jpg",
