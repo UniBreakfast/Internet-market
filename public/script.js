@@ -7,7 +7,15 @@ fetch("/api/products").then(response => response.json()).then(list => {
 
   fillCart(JSON.parse(localStorage.iMarket_cart || "[]"));
   countCart();
-}).catch(() => fetch("/")) ;
+}).catch(() => {
+  const script = Object.assign(document.createElement("script"), {src:"/Internet-market/db_copy.js"});
+  document.head.append(script);
+  script.onload = () => {
+    showProducts(products);
+    fillCart(JSON.parse(localStorage.iMarket_cart || "[]"));
+    countCart();
+  }
+});
 
 document.addEventListener("click", e => {
   if (location.hash === "#cart" && !e.target.closest("#cart") ) closeCart() 
